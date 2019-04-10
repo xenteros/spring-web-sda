@@ -2,6 +2,7 @@ package com.github.xenteros.controller;
 
 
 import com.github.xenteros.dto.BookDto;
+import com.github.xenteros.exception.ResourceNotFoundException;
 import com.github.xenteros.mapper.BookMapper;
 import com.github.xenteros.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class ImprovedBookController {
                 .filter(book -> book.getId().equals(id))
                 .findFirst()
                 .map(bookMapper::toBookDto)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @DeleteMapping("/{id}")
