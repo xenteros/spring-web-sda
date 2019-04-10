@@ -3,11 +3,13 @@ package com.github.xenteros.controller;
 
 import com.github.xenteros.dto.BookDto;
 import com.github.xenteros.exception.ResourceNotFoundException;
+import com.github.xenteros.exception.ValidationException;
 import com.github.xenteros.mapper.BookMapper;
 import com.github.xenteros.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,8 @@ public class ImprovedBookController {
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody BookDto bookDto) {
+    public BookDto createBook(@RequestBody @Valid BookDto bookDto) {
+        validate(bookDto);
         Book book = new Book(nextId++, bookDto.getAuthor(), bookDto.getTitle());
         books.add(book);
         return bookMapper.toBookDto(book);
@@ -53,6 +56,7 @@ public class ImprovedBookController {
     @PutMapping("/{id}")
     public BookDto updateBook(@PathVariable Long id,
                               BookDto bookDto) {
+        validate(bookDto);
         return books.stream()
                 .filter(book -> book.getId().equals(id))
                 .findFirst()
@@ -65,5 +69,22 @@ public class ImprovedBookController {
         book.setAuthor(newAuthor);
         book.setTitle(newTitle);
         return book;
+    }
+
+    private void validate(BookDto bookDto) {
+        List<String> errors = new ArrayList<>();
+        if (bookDto == null) {
+            errors.add("bookDto not found");
+        } else {
+            if (bookDto.getAuthor() == null) {
+                errors.add("Author must not be null");
+            }
+            if (bookDto.getTitle() == null) {
+                errors.add("Title must not be null");
+            }
+        }
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
     }
 }
