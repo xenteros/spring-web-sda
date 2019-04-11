@@ -31,7 +31,7 @@ public class ImprovedBookController {
         return bookMapper.toBookDto(books);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[1-9][0-9]*}")
     public BookDto findBookById(@PathVariable Long id) {
         return books.stream()
                 .filter(book -> book.getId().equals(id))
