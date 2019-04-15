@@ -5,6 +5,7 @@ import com.github.xenteros.dto.BookDto;
 import com.github.xenteros.exception.ResourceNotFoundException;
 import com.github.xenteros.exception.ValidationException;
 import com.github.xenteros.mapper.BookMapper;
+import com.github.xenteros.model.Author;
 import com.github.xenteros.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,11 @@ public class ImprovedBookController {
     @PostMapping
     public BookDto createBook(@RequestBody @Valid BookDto bookDto) {
         validate(bookDto);
-        Book book = new Book(nextId++, bookDto.getAuthor(), bookDto.getTitle());
+        Author author = new Author();
+        String[] name = bookDto.getAuthorName().split(" ");
+        author.setFirstName(name[0]);
+        author.setLastName(name[1]);
+        Book book = new Book(nextId++, author, bookDto.getTitle());
         books.add(book);
         return bookMapper.toBookDto(book);
     }
@@ -60,13 +65,17 @@ public class ImprovedBookController {
         return books.stream()
                 .filter(book -> book.getId().equals(id))
                 .findFirst()
-                .map(book -> updateBook(book, bookDto.getTitle(), bookDto.getAuthor()))
+                .map(book -> updateBook(book, bookDto.getTitle(), bookDto.getAuthorName()))
                 .map(bookMapper::toBookDto)
                 .orElseThrow(RuntimeException::new);
     }
 
     private Book updateBook(Book book, String newTitle, String newAuthor) {
-        book.setAuthor(newAuthor);
+        Author author = new Author();
+        String[] name = newAuthor.split(" ");
+        author.setFirstName(name[0]);
+        author.setLastName(name[1]);
+        book.setAuthor(author);
         book.setTitle(newTitle);
         return book;
     }
@@ -76,7 +85,7 @@ public class ImprovedBookController {
         if (bookDto == null) {
             errors.add("bookDto not found");
         } else {
-            if (bookDto.getAuthor() == null) {
+            if (bookDto.getAuthorName() == null) {
                 errors.add("Author must not be null");
             }
             if (bookDto.getTitle() == null) {

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -16,7 +15,7 @@ public class BookMapper {
 
     public BookDto toBookDto(Book book) {
         BookDto result = new BookDto();
-        result.setAuthor(book.getAuthor());
+//        result.setAuthorName(book.getAuthor());
         result.setTitle(book.getTitle());
         return result;
     }
@@ -24,7 +23,7 @@ public class BookMapper {
     public Book toBook(BookDto bookDto) {
         Book result = new Book();
         result.setTitle(bookDto.getTitle());
-        result.setAuthor(bookDto.getAuthor());
+//        result.setAuthor(bookDto.getAuthorName());
         return result;
     }
 
