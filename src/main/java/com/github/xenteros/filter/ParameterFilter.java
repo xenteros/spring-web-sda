@@ -6,8 +6,11 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import static java.util.Collections.list;
 
 @Component
 @Order(2)
@@ -28,16 +31,16 @@ class ParameterFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         if (req.getRequestURI().startsWith("/api/v2/books")) {
-                req.getParameterMap()
-                        .entrySet()
-                        .removeIf(parameterForbidden);
+//                req.getParameterMap()
+//                        .entrySet()
+//                        .removeIf(parameterForbidden);
 
-//            Enumeration<String> parameterNames = req.getParameterNames();
-//            for (String param : list(parameterNames)) {
-//                if (!(param.equals("id") || param.equals("title") || param.equals("author"))) {
-//                    req.getParameterMap().remove(param);
-//                }
-//            }
+            Enumeration<String> parameterNames = req.getParameterNames();
+            for (String param : list(parameterNames)) {
+                if (!(param.equals("id") || param.equals("title") || param.equals("author"))) {
+                    req.getParameterMap().remove(param);
+                }
+            }
         }
         chain.doFilter(request, response);
     }
