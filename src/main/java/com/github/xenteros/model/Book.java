@@ -3,13 +3,13 @@ package com.github.xenteros.model;
 public class Book {
 
     private Long id;
-    private String author;
+    private Author author;
     private String title;
 
     public Book() {
     }
 
-    public Book(Long id, String author, String title) {
+    public Book(Long id, Author author, String title) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -19,7 +19,7 @@ public class Book {
         return id;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
@@ -27,13 +27,15 @@ public class Book {
         return title;
     }
 
-    public Book setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
-        return this;
     }
 
-    public Book setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
-        return this;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

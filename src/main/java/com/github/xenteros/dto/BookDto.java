@@ -2,9 +2,6 @@ package com.github.xenteros.dto;
 
 import com.github.xenteros.validation.StartsWithCapitalLetter;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.NotNull;
 
 public class BookDto {
 
@@ -14,13 +11,13 @@ public class BookDto {
 
     @NotBlank(message = "Author must not be blank")
     @StartsWithCapitalLetter
-    private String author;
+    private String authorName;
 
     public BookDto() {
     }
-    public BookDto(String title, String author) {
+    public BookDto(String title, String authorName) {
         this.title = title;
-        this.author = author;
+        this.authorName = authorName;
     }
 
     public String getTitle() {
@@ -31,11 +28,11 @@ public class BookDto {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

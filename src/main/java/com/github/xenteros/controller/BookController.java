@@ -34,7 +34,7 @@ class BookController {
 
     @PostMapping
     public Book createBook(@RequestParam String title, @RequestParam String author) {
-        Book book = new Book(nextId++, author, title);
+        Book book = new Book(nextId++, null, title);
         books.add(book);
         return book;
     }
@@ -51,7 +51,7 @@ class BookController {
     }
 
     private Book updateBook(Book book, String newTitle, String newAuthor) {
-        book.setAuthor(newAuthor);
+//        book.setAuthor(newAuthor);
         book.setTitle(newTitle);
         return book;
     }
