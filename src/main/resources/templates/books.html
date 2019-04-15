@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:each="book: ${books}">
+    <span th:text="${book.title}"/>
+    <span th:text="${book.authorName}"/>
+</div>
+</body>
+</html>
